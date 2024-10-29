@@ -87,7 +87,6 @@ export async function GET(request: Request) {
   } catch (e) {
     console.error(e);
     if (e instanceof OAuth2RequestError) {
-      console.error(e.error, e.errorDescription);
       return new Response(null, {
         status: 400,
         
