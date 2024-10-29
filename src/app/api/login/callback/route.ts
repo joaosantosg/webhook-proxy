@@ -12,7 +12,9 @@ export async function GET(request: Request) {
   const state = url.searchParams.get("state");
   const storedState = cookies().get("github_oauth_state")?.value ?? null;
 
+  console.log({ code, state, storedState });
   if (!code || !state || !storedState || state !== storedState) {
+    console.error("Invalid state");
     return new Response(null, {
       status: 400,
     });
@@ -85,8 +87,10 @@ export async function GET(request: Request) {
   } catch (e) {
     console.error(e);
     if (e instanceof OAuth2RequestError) {
+      console.error(e.error, e.errorDescription);
       return new Response(null, {
         status: 400,
+        
       });
     }
     return new Response(null, {
